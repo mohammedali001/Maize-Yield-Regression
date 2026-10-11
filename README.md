@@ -52,24 +52,12 @@ Ridge and Lasso alpha is tuned with 5-fold CV over 50 values from 0.001 to 100. 
 ## Repository contents
 
 ```
-maize_yield_regression_full.ipynb   Everything in one notebook (start here)
-01_data_and_exploration.ipynb       Generate data, explore, plots
-02_slr.ipynb                        Simple linear regression
-03_mlr.ipynb                        Multiple linear regression
-04_polynomial.ipynb                 Polynomial regression, degree 2
-05_ridge.ipynb                      Ridge, fixed and tuned alpha
-06_lasso.ipynb                      Lasso, fixed and tuned alpha, coefficient interpretation
-07_compare_and_memo.ipynb           Compare models, write memo.txt
-code_explained_simply.docx          Every piece of code explained in plain language
+main.ipynb       Full analysis: data generation, exploration, five models, comparison, memo
+farm_yield.csv   Generated dataset (800 rows, 11 columns)
+memo.txt         Recommendation memo to the Head of Agronomy
 ```
 
-Running the notebooks creates these files in the working folder:
-
-```
-farm_yield.csv                      Generated dataset (800 rows, 11 columns)
-memo.txt                            Recommendation memo
-results_*.csv, lasso_linear_coefs.csv   Saved by the split notebooks 02 to 06
-```
+`farm_yield.csv` and `memo.txt` are created by running `main.ipynb`, so you can regenerate them at any time.
 
 ## How to run
 
@@ -80,18 +68,12 @@ pip install numpy pandas matplotlib scikit-learn jupyter
 jupyter notebook
 ```
 
-**Option A: one notebook.** Open `maize_yield_regression_full.ipynb` and run all cells from top to bottom. Later cells reuse variables from earlier ones, so run them in order.
+Open `main.ipynb` and run all cells from top to bottom. Later cells reuse variables from earlier ones, so run them in order. The data uses a fixed seed (`default_rng(42)`), so results are repeatable.
 
-**Option B: separate notebooks.** Run them in numbered order, 01 to 07, in the same folder. Notebook 01 creates `farm_yield.csv`, and notebooks 02 to 06 each save their results for notebook 07 to read.
-
-Results were produced with scikit-learn 1.8, pandas 3.0, numpy 2.4 and matplotlib 3.10. Other recent versions should give the same or very similar numbers. The data uses a fixed seed (`default_rng(42)`).
+Results were produced with scikit-learn 1.8, pandas 3.0, numpy 2.4 and matplotlib 3.10. Other recent versions should give the same or very similar numbers.
 
 ## Limitations
 
 - Synthetic data from one simulated season. Real farms will have effects not modelled here, such as soil type.
 - Predictions are reliable only inside the data range (fertilizer 0 to 200 kg/ha, rainfall 250 to 1500 mm).
 - Before relying on the result, test on a second real season.
-
-## Documentation
-
-`code_explained_simply.docx` walks through the full notebook step by step, explaining each line like you are five.
