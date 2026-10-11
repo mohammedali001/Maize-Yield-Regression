@@ -1,0 +1,34 @@
+MEMO
+
+To:      Head of Agronomy
+From:    Data Science, Shamba Insights Ltd
+Subject: Model for the maize yield forecast engine
+
+DECISION
+Use the Lasso (tuned) model (degree-2 polynomial) in the forecast engine.
+
+WHY
+On 160 plots it never saw, it explains 93% of the variation in yield,
+with a typical error of 0.31 t/ha (RMSE 0.39). The best straight-line model
+(MLR) explains only 45%, and fertilizer alone (SLR) 32%. Rainfall
+and soil pH each have a best level, and too little or too much lowers yield. A straight line
+cannot follow that curve. Adding curves helped, not adding more variables. The penalty in
+Ridge and Lasso added only 0.004 R2 over plain polynomial, which is within the noise of one
+test split, so this is not a big win. We still choose Lasso (tuned): lowest cross-validated
+error, and the penalty keeps the model stable if more features are added.
+
+WHAT DRIVES YIELD (standardized Lasso coefficients, top 4)
+- fertilizer_kg_ha (+0.74): more fertilizer raises yield, with diminishing returns
+- soil_ph (+0.41): best near pH 6.5, lower or higher hurts
+- pest_incidents (-0.27): each pest incident lowers yield
+- irrigated (+0.25): irrigated plots yield more
+
+WHERE IT BREAKS
+- One season of data only. A very dry or wet year may fall outside what the model saw.
+- The data is synthetic. Real farms will have effects not captured here.
+- No soil-type variable, so soil differences are only partly explained.
+- Reliable only inside the data range (fertilizer 0-200 kg/ha, rainfall 250-1500 mm).
+
+NEXT STEP
+Collect a second season and add soil texture, then test the model on that new season
+before shipping.
